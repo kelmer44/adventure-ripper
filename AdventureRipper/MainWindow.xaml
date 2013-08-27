@@ -1,0 +1,39 @@
+﻿<Window x:Class="AdventureRipper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="410" Width="525">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Click="openMenu"/>
+                <MenuItem Header="_Close"/>
+                <MenuItem Header="_Save"/>
+            </MenuItem>
+        </Menu>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <TextBlock Name="fileName">Field 1</TextBlock>
+            <Separator/>
+            <TextBlock Name="headerTextBlock">Field 2</TextBlock>
+            <Separator/>
+            <TextBlock Name="numFilesTextBlock">Field 3</TextBlock>
+        </StatusBar>
+        <TreeView DockPanel.Dock="Left">
+            <TreeViewItem Header="North America">
+                <TreeViewItem Header="USA"></TreeViewItem>
+                <TreeViewItem Header="Canada"></TreeViewItem>
+                <TreeViewItem Header="Mexico"></TreeViewItem>
+            </TreeViewItem>
+            <TreeViewItem Header="South America">
+                <TreeViewItem Header="Argentina"></TreeViewItem>
+                <TreeViewItem Header="Brazil"></TreeViewItem>
+                <TreeViewItem Header="Uruguay"></TreeViewItem>
+            </TreeViewItem>
+        </TreeView>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image x:Name="imgFoto" Width="320" Height="200" Margin="5"></Image>
+            <Button x:Name="btnFoto" Width="100" Height="25"
+                    Content="Agregar Foto" Margin="5" />
+        </StackPanel>
+    </DockPanel>
+</Window>
