@@ -48,15 +48,38 @@ namespace AdventureRipper
                 fileName.Text = filename;
                 using (BinaryReader b = new BinaryReader(File.Open(filename, FileMode.Open)))
                 {
-                    //Read byte array
-                    byte[] buff = b.ReadBytes(Marshal.SizeOf(typeof(Header)));
-                    //Make sure that the Garbage Collector doesn't move our buffer 
-                    GCHandle handle = GCHandle.Alloc(buff, GCHandleType.Pinned);
-                    //Marshal the bytes
-                    Header header = (Header)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(Header));
-                    handle.Free();//Give control of the buffer back to the GC 
-                    headerTextBlock.Text = "" + header.idA + header.idB + header.idC;
+                    var header = new Header
+                    {
+                        id = new String(b.ReadChars(3)),
+                        unknown = b.ReadByte(),
+                        nFiles = b.ReadByte()
+                    };
+                    headerTextBlock.Text = header.id;
                     numFilesTextBlock.Text = header.nFiles.ToString();
+
+                    if (headerTextBlock.Text.Equals("LIB"))
+                    {
+                        TreeViewItem rootItem = new TreeViewItem();
+                        rootItem.Header = "LIB File";
+
+                        List<FileEntry> fileTable = new List<FileEntry>();
+                        for (int i = 0; i < header.nFiles; i++)
+                        {
+                            var fileEntry = new FileEntry
+                            {
+                                null1 = b.ReadByte(),
+                                fileName = new String(b.ReadChars(12)).Replace("\0", string.Empty),
+                                null2 = b.ReadByte(),
+                                fileOffset = b.ReadBytes(3)
+
+                            };
+                            fileTable.Add(fileEntry);
+                            rootItem.Items.Add(new TreeViewItem() { Header = fileEntry.fileName });
+                        }
+                        fileTableSizeTextBlock.Text = fileTable.Count.ToString();
+                        fileTreeView.Items.Add(rootItem);
+                    }
+
                 }
             }
         }
@@ -64,10 +87,16 @@ namespace AdventureRipper
 
     struct Header
     {
-        public char idA;
-        public char idB;
-        public char idC;
+        public String id;
         public byte unknown;
         public byte nFiles;
+    }
+
+    struct FileEntry
+    {
+        public byte null1;
+        public String fileName;
+        public byte null2;
+        public byte[] fileOffset;
     }
 }

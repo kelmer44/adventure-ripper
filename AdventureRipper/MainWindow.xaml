@@ -17,8 +17,10 @@
             <TextBlock Name="headerTextBlock">Field 2</TextBlock>
             <Separator/>
             <TextBlock Name="numFilesTextBlock">Field 3</TextBlock>
+            <Separator/>
+            <TextBlock Name="fileTableSizeTextBlock">Field 4</TextBlock>
         </StatusBar>
-        <TreeView DockPanel.Dock="Left">
+        <TreeView Name="fileTreeView" DockPanel.Dock="Left">
             <TreeViewItem Header="North America">
                 <TreeViewItem Header="USA"></TreeViewItem>
                 <TreeViewItem Header="Canada"></TreeViewItem>
