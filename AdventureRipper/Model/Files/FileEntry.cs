@@ -1,14 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace AdventureRipper.Model
+namespace AdventureRipper.Model.Files
 {
     class FileEntry
     {
-        public string FileName { get; private set; }
-        public string FileOffset { get; private set; }
+        public FileEntry()
+        {
+            
+        }
+
+
+        public string FileName { get; set; }
+        public int FileOffset { get; set; }
+        public byte[] Data { get; set; }
         public static String Icon = "file.png";
 
     }

@@ -13,6 +13,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Runtime.InteropServices;
+using AdventureRipper.Model.Files;
+using AdventureRipper.Model.Resource;
+using AdventureRipper.Model.Resource.LIB;
 
 namespace AdventureRipper
 {
@@ -48,55 +51,22 @@ namespace AdventureRipper
                 fileName.Text = filename;
                 using (BinaryReader b = new BinaryReader(File.Open(filename, FileMode.Open)))
                 {
-                    var header = new Header
+                    LibResource resource = new LibResource(b);
+                    TreeViewItem rootItem = new TreeViewItem();
+                    rootItem.Header = resource.Header;
+                    foreach(FileEntry f in resource.Files)
                     {
-                        id = new String(b.ReadChars(3)),
-                        unknown = b.ReadByte(),
-                        nFiles = b.ReadByte()
-                    };
-                    headerTextBlock.Text = header.id;
-                    numFilesTextBlock.Text = header.nFiles.ToString();
+                            
+                            rootItem.Items.Add(new TreeViewItem() { Header = f.FileName });
+                     }
+                    fileTableSizeTextBlock.Text = resource.NFiles.ToString();
+                    fileTreeView.Items.Add(rootItem);
 
-                    if (headerTextBlock.Text.Equals("LIB"))
-                    {
-                        TreeViewItem rootItem = new TreeViewItem();
-                        rootItem.Header = "LIB File";
-
-                        List<FileEntry> fileTable = new List<FileEntry>();
-                        for (int i = 0; i < header.nFiles; i++)
-                        {
-                            var fileEntry = new FileEntry
-                            {
-                                null1 = b.ReadByte(),
-                                fileName = new String(b.ReadChars(12)).Replace("\0", string.Empty),
-                                null2 = b.ReadByte(),
-                                fileOffset = b.ReadBytes(3)
-
-                            };
-                            fileTable.Add(fileEntry);
-                            rootItem.Items.Add(new TreeViewItem() { Header = fileEntry.fileName });
-                        }
-                        fileTableSizeTextBlock.Text = fileTable.Count.ToString();
-                        fileTreeView.Items.Add(rootItem);
-                    }
 
                 }
             }
         }
     }
 
-    struct Header
-    {
-        public String id;
-        public byte unknown;
-        public byte nFiles;
-    }
 
-    struct FileEntry
-    {
-        public byte null1;
-        public String fileName;
-        public byte null2;
-        public byte[] fileOffset;
-    }
 }
