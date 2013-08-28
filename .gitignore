@@ -2,3 +2,7 @@
 AdventureRipper/obj/
 AdventureRipper/bin/
 AdventureRipper.suo
+_ReSharper.AdventureRipper/
+AdventureRipper/bin/
+AdventureRipper/bin/Debug
+AdventureRipper/obj/*
