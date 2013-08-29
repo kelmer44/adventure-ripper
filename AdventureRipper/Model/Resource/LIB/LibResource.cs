@@ -9,8 +9,8 @@ namespace AdventureRipper.Model.Resource.LIB
 {
     class LibResource : Resource
     {
-        public LibResource(BinaryReader b)
-            : base(b)
+        public LibResource(String filename)
+            : base(filename)
         {
             if (CheckHeader())
             {
@@ -18,9 +18,7 @@ namespace AdventureRipper.Model.Resource.LIB
             }
         }
 
-        public string Header { get; private set; }
 
-        public byte NFiles { get; private set; }
 
         protected override void ReadHeader()
         {
@@ -49,14 +47,41 @@ namespace AdventureRipper.Model.Resource.LIB
             {
                 FileEntry fileEntry = new FileEntry();
 
-
+                fileEntry.ResourceIdx = i;
                 byte dummy = BinaryReader.ReadByte();
                 fileEntry.FileName = new String(BinaryReader.ReadChars(12)).Replace("\0", string.Empty);
                 dummy = BinaryReader.ReadByte();
                 byte[] offset = BinaryReader.ReadBytes(3);
-                fileEntry.FileOffset = offset[2] << 16 + offset[1] << 8 + offset[0];
+                fileEntry.FileOffset = offset[0] + offset[1] * 256 + offset[2] * 65536;
 
                 this.Files.Add(fileEntry);
+            }
+        }
+
+
+        public override byte[] GetFile(int nFile)
+        {
+            if (nFile < this.NFiles)
+            {
+                FileEntry f = this.Files[nFile];
+                BinaryReader.BaseStream.Seek(f.FileOffset, SeekOrigin.Begin);
+                long startPos = f.FileOffset;
+                long endPos = 0;
+                if (nFile < this.NFiles - 1)
+                {
+                    endPos = this.Files[nFile + 1].FileOffset;
+                }
+                else
+                {
+                    endPos = BinaryReader.BaseStream.Length;
+                }
+                byte[] bytes = BinaryReader.ReadBytes(Convert.ToInt32(endPos - startPos));
+                f.Data = bytes;
+                return bytes;
+            }
+            else
+            {
+                return null;
             }
         }
     }
