@@ -12,13 +12,15 @@
         </Menu>
 
         <StatusBar DockPanel.Dock="Bottom">
-            <TextBlock Name="fileName">Field 1</TextBlock>
+            <TextBlock Name="fileName">Main file</TextBlock>
             <Separator/>
-            <TextBlock Name="headerTextBlock">Field 2</TextBlock>
+            <TextBlock Name="headerTextBlock">Header</TextBlock>
             <Separator/>
-            <TextBlock Name="numFilesTextBlock">Field 3</TextBlock>
+            <TextBlock Name="numFilesTextBlock">Num files</TextBlock>
             <Separator/>
-            <TextBlock Name="fileTableSizeTextBlock">Field 4</TextBlock>
+            <TextBlock Name="fileNameTextBlock">Filename</TextBlock>
+            <Separator/>
+            <TextBlock Name="offsetTextBlock">Offset</TextBlock>
         </StatusBar>
         <TreeView Name="fileTreeView" DockPanel.Dock="Left" SelectedItemChanged="fileTreeView_SelectedItemChanged">
             <TreeViewItem Header="North America">

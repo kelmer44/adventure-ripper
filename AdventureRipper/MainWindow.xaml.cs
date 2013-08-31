@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdventureRipper.Model.Files;
 using AdventureRipper.Model.Files.Image.RRM;
+using AdventureRipper.Model.Files.Image.VGS;
 using AdventureRipper.Model.Resource;
 using AdventureRipper.Model.Resource.LIB;
 using Microsoft.Win32;
@@ -32,7 +33,7 @@ namespace AdventureRipper
 
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".LIB";
-            dlg.Filter = "LIB Files (*.LIB)|*.LIB|RRM image|*.RRM";
+            dlg.Filter = "LIB Files (*.LIB)|*.LIB|RRM image|*.RRM|VGS image|*.VGS";
 
 
             // Display OpenFileDialog by calling ShowDialog method 
@@ -47,7 +48,7 @@ namespace AdventureRipper
                 fileName.Text = filename;
                 if(Path.GetExtension(filename).Equals(".LIB"))
                 {
-                    resource = new LibResource(filename);
+                    resource = new Lib2Resource(filename);
                     var rootItem = new TreeViewItem();
                     rootItem.Header = resource.FileName;
                     foreach (FileEntry f in resource.Files)
@@ -56,7 +57,7 @@ namespace AdventureRipper
                         //leafItem.Items.Add(new TreeViewItem() {Header = f.FileOffset});
                         rootItem.Items.Add(f);
                     }
-                    fileTableSizeTextBlock.Text = resource.NFiles.ToString();
+                    numFilesTextBlock.Text = resource.NFiles.ToString();
                     fileTreeView.Items.Add(rootItem);
                 }
                 else if (Path.GetExtension(filename).Equals(".RRM"))
@@ -65,6 +66,13 @@ namespace AdventureRipper
                     image.ToBitmap();
                     imgFoto.Source = MainWindow.loadBitmap(image.ToBitmap());
                 }
+                else if (Path.GetExtension(filename).Equals(".VGS"))
+                {
+                    VGSImage image = new VGSImage(filename);
+                    image.ToBitmap();
+                    imgFoto.Source = MainWindow.loadBitmap(image.ToBitmap());
+                }
+
             }
         }
 
@@ -108,6 +116,11 @@ namespace AdventureRipper
             else if (tree.SelectedItem is string)
             {
                 MessageBox.Show(tree.SelectedItem.ToString());
+            }
+            else if (tree.SelectedItem is FileEntry)
+            {
+                fileNameTextBlock.Text = (tree.SelectedItem as FileEntry).FileName.ToString();
+                offsetTextBlock.Text = (tree.SelectedItem as FileEntry).FileOffset.ToString();
             }
         }
 

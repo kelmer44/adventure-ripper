@@ -8,11 +8,13 @@ using AdventureRipper.Model.Files;
 namespace AdventureRipper.Model.Resource.LIB
 {
     /**
-     * Sherlock Holmes Serrated Scalpel Lib explorer
-     */
-    class LibResource : Resource
+    * Sherlock Holmes Rose tatoo
+    */
+    class Lib2Resource: Resource
     {
-        public LibResource(String filename)
+        private int _firstData;
+
+        public Lib2Resource(String filename)
             : base(filename)
         {
             if (CheckHeader())
@@ -25,17 +27,18 @@ namespace AdventureRipper.Model.Resource.LIB
 
         protected override void ReadHeader()
         {
-            Header = new string(this.BinaryReader.ReadChars(3));
-            byte dummy = this.BinaryReader.ReadByte();
-            NFiles = this.BinaryReader.ReadByte();
+            Header = new string(this.BinaryReader.ReadChars(4));
+            NFiles = this.BinaryReader.ReadInt16();
+            Int32 dummy = this.BinaryReader.ReadInt32();
+            _firstData = this.BinaryReader.ReadInt32();
         }
 
         protected override bool CheckHeader()
         {
-            if (BinaryReader.BaseStream.Length > 6)
+            if (BinaryReader.BaseStream.Length > 14)
             {
                 ReadHeader();
-                if (Header.Equals("LIB"))
+                if (Header.StartsWith("LIC"))
                 {
                     return true;
                 }
@@ -46,18 +49,18 @@ namespace AdventureRipper.Model.Resource.LIB
         protected override void ReadFileTable()
         {
             this.Files = new List<FileEntry>(NFiles);
+            int listOffset = _firstData - (17 + 8)*(NFiles + 1);
+            
             for (int i = 0; i < NFiles; i++)
             {
-                FileEntry fileEntry = new FileEntry();
+                FileEntry thisEntry = new FileEntry();
+                BinaryReader.BaseStream.Seek(listOffset + i *(4+1+12), SeekOrigin.Begin);
 
-                fileEntry.ResourceIdx = i;
+                thisEntry.ResourceIdx = i;
+                thisEntry.FileName = new String(BinaryReader.ReadChars(12)).Replace("\0", string.Empty);
                 byte dummy = BinaryReader.ReadByte();
-                fileEntry.FileName = new String(BinaryReader.ReadChars(12)).Replace("\0", string.Empty);
-                dummy = BinaryReader.ReadByte();
-                byte[] offset = BinaryReader.ReadBytes(3);
-                fileEntry.FileOffset = offset[0] + offset[1] * 256 + offset[2] * 65536;
-
-                this.Files.Add(fileEntry);
+                thisEntry.FileOffset = BinaryReader.ReadInt32();
+                this.Files.Add(thisEntry);
             }
         }
 

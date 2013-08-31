@@ -8,7 +8,7 @@ namespace AdventureRipper.Model.Resource
     {
         public string Header { get; protected set; }
 
-        public byte NFiles { get; protected set; }
+        public int NFiles { get; protected set; }
 
         protected Resource(string fileName)
         {
