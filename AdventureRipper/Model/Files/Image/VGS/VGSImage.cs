@@ -43,6 +43,7 @@ namespace AdventureRipper.Model.Files.Image.VGS
                 palette[i].G = PaletteReader.ReadByte();
                 palette[i].B = PaletteReader.ReadByte();
             }
+            PaletteReader.Close();
         }
 
         private void ReadPixels()
@@ -154,7 +155,7 @@ namespace AdventureRipper.Model.Files.Image.VGS
 
         }
         
-        public Bitmap ToBitmap()
+        public override Bitmap ToBitmap()
         {
             var bitmap = new Bitmap(Width, Height, PixelFormat.Format16bppRgb555);
             Pixel[,] realPixels = images[0];
