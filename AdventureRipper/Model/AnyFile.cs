@@ -5,8 +5,17 @@ using System.Text;
 
 namespace AdventureRipper.Model
 {
-    abstract class AnyFile
+    public abstract class AnyFile
     {
+        public enum SupportedFileformats
+        {
+            HPF,
+            LIB,
+
+        }
+
+
+
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public override string ToString()

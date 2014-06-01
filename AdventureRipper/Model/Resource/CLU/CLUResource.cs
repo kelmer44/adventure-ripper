@@ -5,11 +5,15 @@ using System.Text;
 
 namespace AdventureRipper.Model.Resource.CLU
 {
-    class CLUResource: Resource
+    class CluResource: Resource
     {
-        public CLUResource(string fileName) : base(fileName)
+        public UInt32 BaseId { get; set; }
+        public UInt32 NumSects { get; set; }
+
+        public CluResource() : base()
         {
         }
+
 
         protected override void ReadHeader()
         {

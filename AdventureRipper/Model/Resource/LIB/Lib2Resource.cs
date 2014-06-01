@@ -48,7 +48,7 @@ namespace AdventureRipper.Model.Resource.LIB
 
         protected override void ReadFileTable()
         {
-            this.Files = new List<FileEntry>(NFiles);
+            this.Files = new List<AnyFile>(NFiles);
             int listOffset = _firstData - (17 + 8)*(NFiles + 1);
             
             for (int i = 0; i < NFiles; i++)
@@ -69,13 +69,13 @@ namespace AdventureRipper.Model.Resource.LIB
         {
             if (nFile < this.NFiles)
             {
-                FileEntry f = this.Files[nFile];
+                FileEntry f = (FileEntry) this.Files[nFile];
                 BinaryReader.BaseStream.Seek(f.FileOffset, SeekOrigin.Begin);
                 long startPos = f.FileOffset;
                 long endPos = 0;
                 if (nFile < this.NFiles - 1)
                 {
-                    endPos = this.Files[nFile + 1].FileOffset;
+                    endPos = ((FileEntry)this.Files[nFile + 1]).FileOffset;
                 }
                 else
                 {

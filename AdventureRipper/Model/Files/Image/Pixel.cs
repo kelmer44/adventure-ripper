@@ -7,26 +7,29 @@ namespace AdventureRipper.Model.Files.Image
 {
     class Pixel
     {
-        private byte _r;
-        private byte _g;
-        private byte _b;
+        public byte R { get; set; }
 
-        public byte R
+        public byte G { get; set; }
+
+        public byte B { get; set; }
+
+        public byte A { get; set; }
+
+        public Pixel()
         {
-            get { return _r; }
-            set { _r = value; }
+            
         }
 
-        public byte G
+        public Pixel(byte R, byte G, byte B):this()
         {
-            get { return _g; }
-            set { _g = value; }
+            this.R = R;
+            this.G = G;
+            this.B = B;
+        }
+        public Pixel(byte R, byte G, byte B, byte A): this(R,G,B)
+        {
+            this.A = A;
         }
 
-        public byte B
-        {
-            get { return _b; }
-            set { _b = value; }
-        }
     }
 }

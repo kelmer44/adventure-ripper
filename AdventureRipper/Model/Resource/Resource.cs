@@ -4,12 +4,16 @@ using AdventureRipper.Model.Files;
 
 namespace AdventureRipper.Model.Resource
 {
-    abstract class Resource : AnyFile
+    public abstract class Resource : AnyFile
     {
         public string Header { get; protected set; }
 
         public int NFiles { get; protected set; }
 
+        protected Resource()
+        {
+            
+        }
         protected Resource(string fileName)
         {
             FilePath = fileName;
@@ -17,7 +21,9 @@ namespace AdventureRipper.Model.Resource
             BinaryReader = new BinaryReader(File.Open(fileName, FileMode.Open));
         }
 
-        public List<FileEntry> Files { get; set; }
+
+
+        public List<AnyFile> Files { get; set; }
 
         public BinaryReader BinaryReader { get; set; }
 

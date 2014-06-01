@@ -3,7 +3,7 @@ using System.IO;
 
 namespace AdventureRipper.Model.Files
 {
-    class FileEntry : AnyFile
+    public class FileEntry : AnyFile
     {
         public FileEntry()
         {
@@ -12,6 +12,7 @@ namespace AdventureRipper.Model.Files
 
         public int ResourceIdx { get; set; }
         public int FileOffset { get; set; }
+        public int FileLength { get; set; }
         public byte[] Data { get; set; }
         public static String Icon = "file.png";
 

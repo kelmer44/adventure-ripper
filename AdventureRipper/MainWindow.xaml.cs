@@ -5,11 +5,14 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AdventureRipper.Model.Files;
 using AdventureRipper.Model.Files.Image;
+using AdventureRipper.Model.Files.Image.BG;
 using AdventureRipper.Model.Files.Image.LBV;
 using AdventureRipper.Model.Files.Image.RRM;
 using AdventureRipper.Model.Files.Image.VGS;
 using AdventureRipper.Model.Resource;
+using AdventureRipper.Model.Resource.HPF;
 using AdventureRipper.Model.Resource.LIB;
+using AdventureRipper.Model.Resource.RIF;
 using Microsoft.Win32;
 
 namespace AdventureRipper
@@ -36,15 +39,30 @@ namespace AdventureRipper
 
             // Set filter for file extension and default file extension 
             dlg.DefaultExt = ".LIB";
-            dlg.Filter = "LIB Files (*.LIB)|*.LIB|RRM image|*.RRM|VGS image|*.VGS";
+            dlg.Filter = "LIB Files (*.LIB)|*.LIB|RRM image|*.RRM|VGS image|*.VGS|RIF resource|*.RIF|HPF resource|*.HPF";
 
 
             // Display OpenFileDialog by calling ShowDialog method 
             bool? result = dlg.ShowDialog();
 
+            if(result == true)
+            {
+                string filename = dlg.FileName;
+                fileName.Text = filename;
+                resource = ResourceFactory.openResource(filename);
+                var rootItem = new TreeViewItem();
+                rootItem.Header = resource.FileName;
+                foreach (FileEntry f in resource.Files)
+                {
+                    rootItem.Items.Add(f);
+                }
+                numFilesTextBlock.Text = resource.NFiles.ToString();
+                fileTreeView.Items.Add(rootItem);
+                rootItem.IsExpanded = true;
 
+            }
             // Get the selected file name and display in a TextBox 
-            if (result == true)
+           /* if (result == true)
             {
                 // Open document 
                 string filename = dlg.FileName;
@@ -71,9 +89,36 @@ namespace AdventureRipper
                 }
                 else if (Path.GetExtension(filename).Equals(".VGS"))
                 {
-                    VGSImage image = new VGSImage(filename);
+                    VGS2Image image = new VGS2Image(filename);
                 }
-            }
+                else if (Path.GetExtension(filename).Equals(".RIF"))
+                {
+                    resource = new RifResource(filename);
+                    var rootItem = new TreeViewItem();
+                    rootItem.Header = resource.FileName;
+                    foreach (FileEntry f in resource.Files)
+                    {
+                        //var leafItem = new TreeViewItem() {Header = f.FileName};
+                        //leafItem.Items.Add(new TreeViewItem() {Header = f.FileOffset});
+
+                        rootItem.Items.Add(f);
+                    }
+                }
+
+                else if (Path.GetExtension(filename).Equals(".HPF"))
+                {
+                    resource = new HpfResource(filename);
+                    var rootItem = new TreeViewItem();
+                    rootItem.Header = resource.FileName;
+                    foreach (FileEntry f in resource.Files)
+                    {
+                        //var leafItem = new TreeViewItem() {Header = f.FileName};
+                        //leafItem.Items.Add(new TreeViewItem() {Header = f.FileOffset});
+
+                        rootItem.Items.Add(f);
+                    }
+                }
+            }*/
         }
 
         private void showImage(ImageFile image)
@@ -131,12 +176,25 @@ namespace AdventureRipper
                 fileNameTextBlock.Text = (tree.SelectedItem as FileEntry).FileName.ToString();
                 offsetTextBlock.Text = (tree.SelectedItem as FileEntry).FileOffset.ToString();
                 FileEntry f = (FileEntry) tree.SelectedItem;
-                if (Path.GetExtension(f.FileName).Equals(".LBV"))
+                var ext = Path.GetExtension(f.FileName);
+
+                if (ext.Equals(".LBV"))
                 {
                     LBVImage image = new LBVImage(resource.GetFile(f.ResourceIdx), f.FileName, resource.FileName);
                     showImage(image);  
                 }
-
+                else if (ext.Equals(".RRM"))
+                {
+                    RRMImage image = (RRMImage)tree.SelectedItem;
+                    showImage(image);
+                }
+                else if (ext.Equals(".BG"))
+                {
+                    Console.Out.WriteLine("Trying to display BD image from The Last Express...");
+                    
+                    var image = new BGImage(resource.GetFile(f.ResourceIdx), f.FileName, resource.FileName);
+                    showImage(image);  
+                }
 
                   
 

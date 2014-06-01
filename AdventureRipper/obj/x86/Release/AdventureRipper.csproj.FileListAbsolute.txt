@@ -1,13 +1,11 @@
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\bin\Release\AdventureRipper.exe
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\bin\Release\AdventureRipper.pdb
-C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\ResolveAssemblyReference.cache
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\MainWindow.baml
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\MainWindow.g.cs
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\App.g.cs
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper_MarkupCompile.cache
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper.g.resources
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper.Properties.Resources.resources
-C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\GenerateResource.read.1.tlog
-C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\GenerateResource.write.1.tlog
+C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper.csproj.GenerateResource.Cache
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper.exe
 C:\Desarrollo\C\Workspace\AdventureRipper\AdventureRipper\obj\x86\Release\AdventureRipper.pdb

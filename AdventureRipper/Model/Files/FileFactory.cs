@@ -15,7 +15,7 @@ namespace AdventureRipper.Model.Files
             string extension = Path.GetExtension(fileName);
             if(extension.Equals(".VGS"))
             {
-                return new VGSImage(fileName);
+                return new VGS2Image(fileName);
             }
             else if (extension.Equals(".LBV"))
             {
